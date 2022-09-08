@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 const Snake = () => {
-    const [mcPos, setMCPos] = useState({ col: 5, row: 5, nextmove: "w" });
+    const [mcPos, setMCPos] = useState({ col: 10, row: 10, nextmove:'' });
     const snakeBoardTile = {
         width: 25,
         height: 25,
@@ -80,7 +80,7 @@ const Snake = () => {
                 default:
                     console.log("wrong key");
             }
-        }, 1000);
+        }, 60);
         snakePaint();
         console.log(mcPos);
         return () => {
