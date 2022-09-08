@@ -1,8 +1,8 @@
 import {Box} from '@mui/material'
 import { useEffect, useState } from 'react'
 const Snake = () => {
-    // const [mcPos,setMCPos] = useState({boxcol:5,boxrow:5});
-    const [mcPos,setMCPos] = useState({boxcol:5,boxrow:5});
+    // const [mcPos,setMCPos] = useState({col:5,row:5});
+    const [mcPos,setMCPos] = useState({col:5,row:5});
     const snakeBoardTile = {
         width:50,
         height:50,
@@ -17,26 +17,26 @@ const Snake = () => {
         switch (event.key){
             case 'w':
             case 'ArrowUp':
-                if(mcPos.boxrow > 1){
-                    setMCPos({...mcPos,boxrow: mcPos.boxrow-1});
+                if(mcPos.row > 1){
+                    setMCPos({...mcPos,row: mcPos.row-1});
                 }
                 break;
             case 'd':
             case 'ArrowRight':
-                if(mcPos.boxcol<snakeBoard.length){
-                    setMCPos({...mcPos,boxcol: mcPos.boxcol+1});
+                if(mcPos.col<snakeBoard.length){
+                    setMCPos({...mcPos,col: mcPos.col+1});
                 }
                 break;
             case 's':
             case'ArrowDown':
-                if(mcPos.boxrow<snakeBoard.length){
-                    setMCPos({...mcPos,boxrow: mcPos.boxrow + 1});
+                if(mcPos.row<snakeBoard.length){
+                    setMCPos({...mcPos,row: mcPos.row + 1});
                 }
                 break;
             case 'a':
             case'ArrowLeft':
-                if(mcPos.boxcol>1){
-                    setMCPos({...mcPos,boxcol: mcPos.boxcol - 1});
+                if(mcPos.col>1){
+                    setMCPos({...mcPos,col: mcPos.col - 1});
                 }
                 break;
             default:
@@ -46,7 +46,7 @@ const Snake = () => {
     const snakePaint = () =>{
         const boxArr = document.getElementsByClassName('box');
         for(let el of boxArr){
-            if(el.getAttribute("boxcol") == mcPos.boxcol && el.getAttribute("boxrow") == mcPos.boxrow)
+            if(el.id == `row:${mcPos.row},col:${mcPos.col}`)
                 el.classList.add('cyan')
             else
                 el.classList.remove('cyan')
@@ -65,7 +65,7 @@ const Snake = () => {
             {snakeBoard.map((el,i) =>
             <span style={{display:'flex'}}>
                 {el.map((el2,j) => 
-                <Box className='box' sx={snakeBoardTile} boxcol={j+1} boxrow = {i+1} >{j+1}</Box>
+                <Box className='box' id={`row:${i+1},col:${j+1}`} sx={snakeBoardTile} nextmove=''>{j+1}</Box>
                 )}
             </span>
             )}
