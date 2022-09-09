@@ -1,111 +1,137 @@
-import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Grid } from "@mui/material";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+let initialState =  
+  [
+    { col: 10, row: 20, nextmove: '' }, 
+    { col: 10, row: 21, nextmove: '' },
+    { col: 10, row: 22, nextmove: '' },
+    { col: 10, row: 23, nextmove: '' },
+    { col: 10, row: 24, nextmove: '' },
+  ];
+  const snakeBoardTile = {
+    width: 20,
+    height: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    border: ".1px solid grey",
+  };
+
 const Snake = () => {
-    const [mcPos, setMCPos] = useState({ col: 10, row: 10, nextmove:'' });
-    const snakeBoardTile = {
-        width: 25,
-        height: 25,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        border: "1px solid ",
-    };
-    const snakeBoard = new Array(20).fill(new Array(20).fill(0));
-    let interval;
 
-    const moveSnake = (event) => {
-        switch (event.key) {
-            case "w":
-            case "ArrowUp":
-                // if(mcPos.row > 1){
-                //     setMCPos({...mcPos,row: mcPos.row-1});
-                // }
-                setMCPos({ ...mcPos, nextmove: "w" });
-                break;
-            case "d":
-            case "ArrowRight":
-                // if(mcPos.col<snakeBoard.length){
-                //     setMCPos({...mcPos,col: mcPos.col+1});
-                // }
-                setMCPos({ ...mcPos, nextmove: "d" });
-                break;
-            case "s":
-            case "ArrowDown":
-                // if(mcPos.row<snakeBoard.length){
-                //     setMCPos({...mcPos,row: mcPos.row + 1});
-                // }
-                setMCPos({ ...mcPos, nextmove: "s" });
+  const [mcPos, setMCPos] = useState({ col: 10, row: 20, nextmove: "" });
+  const snakeBoard = new Array(25).fill(new Array(25).fill(0));
+  let interval;
 
-                break;
-            case "a":
-            case "ArrowLeft":
-                // if(mcPos.col>1){
-                //     setMCPos({...mcPos,col: mcPos.col - 1});
-                // }
-                setMCPos({ ...mcPos, nextmove: "a" });
-                break;
-            default:
-                console.log("wrong key");
+  const moveSnakeHead = (event) => {
+    switch (event.key) {
+      case "w":
+      case "ArrowUp":
+        setMCPos({ ...mcPos, nextmove: "w" });
+        break;
+      case "d":
+      case "ArrowRight":
+        setMCPos({ ...mcPos, nextmove: "d" });
+        break;
+      case "s":
+      case "ArrowDown":
+        setMCPos({ ...mcPos, nextmove: "s" });
+        break;
+      case "a":
+      case "ArrowLeft":
+        setMCPos({ ...mcPos, nextmove: "a" });
+        break;
+      default:
+        console.log("wrong key");
+    }
+  };
+  const snakePaint = () => {
+    resetPaint();
+    initialState.forEach(el=>{
+      document
+        .getElementById(`row:${el.row},col:${el.col}`)
+        .classList.add("green");
+    })
+  };
+
+  const resetPaint = () => {
+    const boxArr = document.getElementsByClassName("box");
+    for (let el of boxArr) {
+      el.classList.remove("green");
+    }
+  };
+
+
+  const updatePosition = () => {
+    switch (mcPos.nextmove) {
+      case "w":
+        if (mcPos.row > 1) {
+          setMCPos({ ...mcPos, row: mcPos.row - 1 });
         }
-    };
-
-    const snakePaint = () => {
-        const boxArr = document.getElementsByClassName("box");
-        for (let el of boxArr) {
-            if (el.id == `row:${mcPos.row},col:${mcPos.col}`)
-                el.classList.add("green");
-            else el.classList.remove("green");
+        break;
+      case "d":
+        if (mcPos.col < snakeBoard.length) {
+          setMCPos({ ...mcPos, col: mcPos.col + 1 });
         }
-        document
-            .getElementById(`row:${mcPos.row},col:${mcPos.col}`)
-            .classList.add("green");
+        break;
+      case "s":
+        if (mcPos.row < snakeBoard.length) {
+          setMCPos({ ...mcPos, row: mcPos.row + 1 });
+        }
+        break;
+      case "a":
+        if (mcPos.col > 1) {
+          setMCPos({ ...mcPos, col: mcPos.col - 1 });
+        }
+        break;
+      default:
+        console.log("wrong key");
+        return;
+    }
+    
+  }
+  const updateInitialState = () =>{
+    if(mcPos.col != initialState[0].col || mcPos.row != initialState[0].row){
+      let snakeSwap = {...mcPos};
+      let data = initialState.map((el,i)=>{
+        let temp;
+        temp = {...snakeSwap};
+        snakeSwap={...el};
+        return {...temp};
+      })
+      initialState = [...data];
+
+    }
+    snakePaint();
+  }
+  
+  
+  useEffect(() => {
+    interval = setInterval(updatePosition, 100);
+    window.addEventListener("keydown", moveSnakeHead, true);
+    updateInitialState();
+    return () => {
+      window.removeEventListener("keydown", moveSnakeHead, true);
+      clearInterval(interval);
     };
+  }, [mcPos]);
 
-    useEffect(() => {
-        window.addEventListener("keydown", moveSnake, true);
-        interval = setInterval(() => {
-            switch (mcPos.nextmove) {
-                case "w":
-                    setMCPos({ ...mcPos, row: mcPos.row - 1 });
-                    break;
-                case "d":
-                    setMCPos({ ...mcPos, col: mcPos.col + 1 });
-                    break;
-                case "s":
-                    setMCPos({ ...mcPos, row: mcPos.row + 1 });
-                    break;
-                case "a":
-                    setMCPos({ ...mcPos, col: mcPos.col - 1 });
-                    break;
-                default:
-                    console.log("wrong key");
-            }
-        }, 60);
-        snakePaint();
-        console.log(mcPos);
-        return () => {
-            window.removeEventListener("keydown", moveSnake, true);
-            clearInterval(interval);
-        };
-    }, [mcPos]);
-
-    return (
-        <div id="snakeWrapper">
-            {snakeBoard.map((el, i) => (
-                <span style={{ display: "flex" }}>
-                    {el.map((el2, j) => (
-                        <Box
-                            className="box"
-                            id={`row:${i + 1},col:${j + 1}`}
-                            sx={snakeBoardTile}
-                            nextmove=""
-                        >
-                            {j + 1}
-                        </Box>
-                    ))}
-                </span>
-            ))}
-        </div>
-    );
+  return (
+    <div id="snakeWrapper">
+      {snakeBoard.map((el, i) => (
+        <span style={{ display: "flex" }}>
+          {el.map((el2, j) => (
+            <Box
+              className="box"
+              id={`row:${i + 1},col:${j + 1}`}
+              sx={snakeBoardTile}
+              nextmove=""
+            >{j+1}</Box>
+          ))}
+        </span>
+      ))}
+    </div>
+  );
 };
 export default Snake;

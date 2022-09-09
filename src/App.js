@@ -2,6 +2,7 @@ import { AppBar, Box, Button, styled, Typography } from "@mui/material";
 import { padding } from "@mui/system";
 import { CustomTheme } from "./theme/theme";
 import Snake from './snake'
+import GridTemp from './grid'
 import './style.css';
 function App() {
   const styles = {
@@ -53,6 +54,7 @@ function App() {
     //   </Button> */}
     // </CustomTheme>
     <Snake/>
+    // <GridTemp/>
   );
 }
 
