@@ -1,0 +1,20 @@
+[
+    {
+      "name": "Кимчи Жигэ",
+      "desc": "Kimchi,gahain mah, ulaan songino, tofu, etc",
+      "price": 16900,
+      "category": "Spicy",
+      "ingredients": [
+        {
+          "garlic": "3 cloves",
+          "tofu": "500g",
+          "pork": "250g",
+          "gochugaru": "300g",
+          "pepper": "100g",
+          "salt": "50g"
+        }
+      ],
+      "pic": "../images/kimchijige.jpg",
+      "portion": 1
+    }
+  ]

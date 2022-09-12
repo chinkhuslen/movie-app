@@ -8,7 +8,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Divider, Toolbar } from "@mui/material";
+import { Toolbar } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
@@ -32,7 +32,6 @@ function ResponsiveDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
   const [currentPage, setCurrentPage] = useState('Захиалга')
-
 
   const drawer = (
     <div>
@@ -104,7 +103,7 @@ function ResponsiveDrawer(props) {
           <Typography noWrap component="div" sx={{fontSize:'32px',fontWeight:'700' ,lineHeight:'40px',color:'#252733'}}>
             {currentPage}
           </Typography>
-          
+
           <Box sx={{position:'absolute', right:30+"px", display:"flex", alignItems:'center',gap:10+'px'}}>
           <Typography>
             Name
