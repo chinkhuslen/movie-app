@@ -1,61 +1,32 @@
 import { AppBar, Box, Button, styled, Typography } from "@mui/material";
-import { padding } from "@mui/system";
-import { CustomTheme } from "./theme/theme";
-import Snake from './snake'
-import GridTemp from './grid'
-import './style.css';
-function App() {
-  const styles = {
-    myButton: {
-      backgroundColor: "red",
-      height: 100,
-    },
-    anotherButton: {
-      backgroundColor: "blue",
-      height: 100,
-    },
-  };
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import DashboardPage from "./adminPages/adminDashboard";
+import MenuPage from "./adminPages/adminMenu";
+import SettingsPage from "./adminPages/adminSettings";
+import OrderPage from "./adminPages/OrderPage";
+import ResponsiveDrawer from "./components/navigation";
+import './style.css'
 
-  const MyDiv = styled("div")(({ theme }) => ({
-    [theme.breakpoints.down('sm')]: {
-      backgroundColor: theme.palette.secondary.dark,
-    },
-    [theme.breakpoints.between('sm',"md")]: {
-      backgroundColor: theme.palette.secondary.light,
-    },
-    [theme.breakpoints.between("md",'lg')]: {
-      backgroundColor: theme.palette.primary.light,
-    },
-    [theme.breakpoints.between("lg",'xl')]: {
-      backgroundColor: theme.palette.primary.main,
-    },
-    [theme.breakpoints.up('xl')]: {
-      backgroundColor: theme.palette.secondary.main,
-    },
-  }));
+const App = () => {
   return (
-    // <CustomTheme>
-    //   {/* <div className="App">
-    //   <header className="App-header">
-    //     <AppBar>
-    //       <Button variant="text" sx={styles.myButton}>
-    //         Text
-    //       </Button>
-    //       <Button variant="contained" sx={styles.anotherButton}>
-    //         Contained
-    //       </Button>
-    //       <Button variant="outlined">Outlined</Button>
-    //     </AppBar>
-    //   </header>
-    // </div> */}
-    //   <MyDiv>Hello</MyDiv>
-    //   {/* <Button variant="contained" color="primary">
-    //     Hello
-    //   </Button> */}
-    // </CustomTheme>
-    <Snake/>
-    // <GridTemp/>
+    <Router>
+      <div>
+        <ResponsiveDrawer />
+        <Box sx={{
+        width: { sm: `calc(100% - 240px)` },
+        ml: { sm: `240px` },
+        mt:'100px'
+      }}>
+        <Routes>
+          <Route path="/" element={<OrderPage />}></Route>
+          <Route path="/dashboard" element={<DashboardPage />}></Route>
+          <Route path="/settings" element={<SettingsPage />}></Route>
+          <Route path="/menu" element={<MenuPage />}></Route>
+        </Routes>
+        </Box>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;

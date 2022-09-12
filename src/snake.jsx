@@ -1,6 +1,6 @@
 import { Box, Grid } from "@mui/material";
 import { useCallback, useEffect, useMemo, useState } from "react";
-
+import './style.css'
 let initialState =  
   [
     { col: 10, row: 20, nextmove: '' }, 
@@ -16,6 +16,7 @@ let initialState =
     justifyContent: "center",
     alignItems: "center",
     border: ".1px solid grey",
+    borderRadius:"50%",
   };
 
 const Snake = () => {
@@ -108,7 +109,7 @@ const Snake = () => {
   
   
   useEffect(() => {
-    interval = setInterval(updatePosition, 100);
+    interval = setInterval(updatePosition, 500);
     window.addEventListener("keydown", moveSnakeHead, true);
     updateInitialState();
     return () => {
@@ -120,14 +121,13 @@ const Snake = () => {
   return (
     <div id="snakeWrapper">
       {snakeBoard.map((el, i) => (
-        <span style={{ display: "flex" }}>
+        <span className="snakeWrap" style={{ display: "flex" }}>
           {el.map((el2, j) => (
             <Box
               className="box"
               id={`row:${i + 1},col:${j + 1}`}
               sx={snakeBoardTile}
-              nextmove=""
-            >{j+1}</Box>
+            ></Box>
           ))}
         </span>
       ))}
